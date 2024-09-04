@@ -7,7 +7,7 @@ import {
 } from 'element-ui'
 let lastTime = 0
 
-export async function login () {
+export async function login() {
   if (!store.getters.metaAddress || store.getters.metaAddress === undefined) {
     const accounts = await common.providerInit.request({
       method: 'eth_requestAccounts'
@@ -48,7 +48,7 @@ export async function login () {
 //   return balance
 // }
 
-export async function throttle () {
+export async function throttle() {
   // Prevent multiple signatures
   let now = new Date().valueOf()
   if (lastTime > 0 && (now - lastTime) <= 2000) return false
@@ -56,7 +56,7 @@ export async function throttle () {
   return true
 }
 
-export async function sendPostRequest (apilink, jsonObject) {
+export async function sendPostRequest(apilink, jsonObject) {
   try {
     const response = await axios.post(apilink, jsonObject)
     return response.data
@@ -78,7 +78,7 @@ export async function sendPostRequest (apilink, jsonObject) {
     }
   }
 }
-export async function getNonce () {
+export async function getNonce() {
   const reqOpts = {
     'address': store.getters.metaAddress
   }
@@ -92,7 +92,7 @@ export async function getNonce () {
   return [response.message ? response.message : '', '']
 }
 
-export async function sign (nonce) {
+export async function sign(nonce) {
   store.dispatch('setMCSjwtToken', '')
   const buff = Buffer.from(nonce, 'utf-8')
   let signature = null
@@ -109,7 +109,7 @@ export async function sign (nonce) {
   return signature
 }
 
-export async function performSignin (sig, nonce) {
+export async function performSignin(sig, nonce) {
   const netId = Number(store.getters.networkID)
   // netId === 97 ? 'bsc.testnet' :
   const reqOpts = {
@@ -123,7 +123,7 @@ export async function performSignin (sig, nonce) {
     console.log('insufficient balance')
     Message({
       showClose: true,
-      message: store.getters.languageMcs === 'en' ? 'You need to have minimal balance of 0.01 ETH or 10 MATIC to access MCS' : '您需要拥有0.01 ETH或10 MATIC的最低余额才能访问MCS',
+      message: store.getters.languageMcs === 'en' ? 'You need to have minimal balance of 0.01 Swan ETH, 0.01 ETH, or 10 MATIC to access MCS' : '您需要拥有0.01 Swan ETH, 0.01 ETH或10 MATIC的最低余额才能访问MCS',
       type: 'error'
     })
     signOutFun()
@@ -139,7 +139,7 @@ export async function performSignin (sig, nonce) {
   return null
 }
 
-export async function emailSign (token, type) {
+export async function emailSign(token, type) {
   const response = await common.sendRequest(`${process.env.BASE_PAYMENT_GATEWAY_API}api/v1/user/wallet`, 'get')
   if (response && response.status === 'success') {
     const data = response.data.wallet
@@ -156,19 +156,19 @@ export async function emailSign (token, type) {
   return null
 }
 
-export async function setPopupTime () {
+export async function setPopupTime() {
   const response = await common.sendRequest(`${process.env.BASE_PAYMENT_GATEWAY_API}api/v1/user/wallet/set_popup_time`, 'put')
   if (response && response.status === 'success') return true
   return false
 }
 
-export async function Disconnect () {
+export async function Disconnect() {
   const response = await common.sendRequest(`${process.env.BASE_PAYMENT_GATEWAY_API}api/v1/user/delete_email`, 'put')
   if (response && response.status === 'success') return true
   return false
 }
 
-export function signOutFun () {
+export function signOutFun() {
   store.dispatch('setMetaAddress', '')
   store.dispatch('setMCSjwtToken', '')
   store.dispatch('setMetaNetworkId', 0)
@@ -182,19 +182,19 @@ export function signOutFun () {
   router.push('/supplierAllBack')
 }
 
-export async function netStatus (id) {
+export async function netStatus(id) {
   return true
 }
 
-export async function urlBase (id) {
+export async function urlBase(id) {
   let url = ''
   switch (id) {
     case 80001:
       url = process.env.BASE_PAYMENT_GATEWAY_API
       break
-      // case 97:
-      //   url = process.env.BASE_PAYMENT_GATEWAY_BSC_API
-      //   break
+    // case 97:
+    //   url = process.env.BASE_PAYMENT_GATEWAY_BSC_API
+    //   break
     case 137:
       url = process.env.BASE_PAYMENT_GATEWAY_POLYGON_API
       break
