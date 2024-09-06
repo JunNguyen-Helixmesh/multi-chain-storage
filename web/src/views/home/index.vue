@@ -2,7 +2,7 @@
   <div class="metamaskHome">
     <el-alert v-if="!minBalance && tipShow" type="warning" effect="dark" center show-icon>
       <div slot="title" style="font-weight:500">
-        {{languageMcs === 'en' ? 'Access to Multi-Chain Storage requires a minimum wallet balance of 0.01 ETH or 10 MATIC.':'访问多链存储需要至少0.01 ETH或10 MATIC的钱包余额。'}}
+        {{languageMcs === 'en' ? 'Access to Multi-Chain Storage requires a minimum wallet balance of 0.01 Swan ETH, 0.01 ETH, or 10 MATIC.':'访问多链存储需要至少0.01 Swan ETH, 0.01 ETH或10 MATIC的钱包余额。'}}
 
         <i class="el-icon-close" @click="tipShow = false"></i>
       </div>
