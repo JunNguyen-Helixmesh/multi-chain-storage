@@ -94,18 +94,18 @@ export async function getNonce() {
 
 export async function sign(nonce) {
   store.dispatch('setMCSjwtToken', '')
-  const buff = Buffer.from(nonce, 'utf-8')
   let signature = null
-  await common.providerInit.request({
-    method: 'personal_sign',
-    params: [buff.toString('hex'), store.getters.metaAddress]
-  }).then(sig => {
-    signature = sig
-  }).catch(err => {
-    console.log(err)
+  try {
+    signature = await common.providerInit.request({
+      method: 'personal_sign',
+      params: [nonce, store.getters.metaAddress]
+    })
+  } catch (err) {
+    console.error(err)
     signOutFun()
     signature = ''
-  })
+  }
+
   return signature
 }
 
